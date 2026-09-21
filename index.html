@@ -24,7 +24,7 @@
       padding: 15px 5px;
     }
 
-    /* Pétalos cayendo con físicas y colores variables */
+    /* Pétalos cayendo */
     .petal {
       position: fixed;
       top: -12%;
@@ -57,12 +57,12 @@
 
     /* Carta / Papel viejo */
     .card {
-      background-color: #f2e3c6; /* Marrón/Crema papel viejo */
+      background-color: #f2e3c6;
       border: 1px solid #d4c39c;
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       padding: 25px 15px;
-      width: 95vw; /* Ocupa casi todo el ancho de la pantalla del celular */
+      width: 95vw;
       max-width: 600px;
       text-align: center;
       color: #4a3b32;
@@ -86,7 +86,7 @@
       max-height: 3000px;
     }
 
-    /* Sobre interactivo (Página 1) */
+    /* Sobre interactivo */
     .envelope-wrapper {
       cursor: pointer;
     }
@@ -108,7 +108,7 @@
       font-style: italic;
     }
 
-    /* Contenido de la carta */
+    /* Texto */
     .letter-text {
       font-size: 1.1rem;
       line-height: 1.6;
@@ -134,7 +134,7 @@
       transform: scale(0.96);
     }
 
-    /* Imagen del ramo de flores maximizada para celular */
+    /* Ramo de flores escalado */
     .bouquet-img {
       width: 100%;
       height: auto;
@@ -142,7 +142,7 @@
       margin: 20px 0;
       display: block;
       filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.18));
-      transform: scale(1.15); /* Amplificación extra */
+      transform: scale(1.15);
     }
 
     .title-yellow {
@@ -157,6 +157,9 @@
 </head>
 <body>
 
+  <!-- Audio de fondo (cancion.mp3) -->
+  <audio id="bg-music" src="cancion.mp3" loop></audio>
+
   <!-- Lluvia de pétalos -->
   <div id="petals-container"></div>
 
@@ -164,7 +167,7 @@
   <div class="card">
     
     <!-- PÁGINA 1: Sobre cerrado -->
-    <div id="page1" class="page active envelope-wrapper" onclick="nextPage(2)">
+    <div id="page1" class="page active envelope-wrapper" onclick="startCard()">
       <div class="envelope-icon">✉️</div>
       <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">Tenés una carta</p>
       <p class="envelope-hint">(Toca aquí para abrir)</p>
@@ -185,17 +188,24 @@
     <!-- PÁGINA 4: Flores amarillas -->
     <div id="page4" class="page">
       <div class="title-yellow">FLORES AMARILLAS</div>
-      <!-- Ramo de flores escalado -->
       <img src="Flores.png" alt="Ramo de Flores Amarillas" class="bouquet-img">
       <p class="letter-text" style="margin-bottom: 0; font-size: 1rem; font-style: italic;">
-        Gracias por aceptarme como soy 🩷
+        ¡Que tengas un lindo día!
       </p>
     </div>
 
   </div>
 
   <script>
-    // Generador de pétalos variados
+    // Reproducir música desde el segundo 17 al tocar la carta por primera vez
+    function startCard() {
+      const music = document.getElementById('bg-music');
+      music.currentTime = 17; // Inicia exactamente en 0:17
+      music.play().catch(e => console.log("Error al reproducir audio:", e));
+      nextPage(2);
+    }
+
+    // Generador de pétalos
     const petalsContainer = document.getElementById('petals-container');
     const petalCount = 45;
     const colors = ['#ffd700', '#ffea00', '#f4c430', '#ffe135'];
@@ -221,7 +231,7 @@
       petalsContainer.appendChild(petal);
     }
 
-    // Navegación entre páginas con transición suave
+    // Navegación de páginas
     function nextPage(pageNumber) {
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
