@@ -12,7 +12,7 @@
     }
 
     body {
-      background-color: #f7d6e0; /* Rosa pastel */
+      background-color: #f7d6e0;
       font-family: 'Georgia', serif;
       display: flex;
       justify-content: center;
@@ -24,7 +24,6 @@
       padding: 15px 5px;
     }
 
-    /* Control flotante de música */
     .music-control {
       position: fixed;
       top: 20px;
@@ -45,7 +44,6 @@
       color: #333;
     }
 
-    /* Pétalos cayendo */
     .petal {
       position: fixed;
       top: -12%;
@@ -64,7 +62,6 @@
       100% { transform: translateY(110vh) rotate(360deg) translateX(-10px); opacity: 0.1; }
     }
 
-    /* Carta / Papel viejo */
     .card {
       background-color: #f2e3c6;
       border: 1px solid #d4c39c;
@@ -80,7 +77,6 @@
       margin: auto;
     }
 
-    /* Transiciones suaves entre páginas */
     .page {
       opacity: 0;
       visibility: hidden;
@@ -158,12 +154,9 @@
 </head>
 <body>
 
-  <!-- Audio local cancion.mp3 -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="cancion.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Elemento de audio simple sin restricciones -->
+  <audio id="bg-music" src="cancion.mp3" loop preload="auto"></audio>
 
-  <!-- Botón flotante -->
   <div class="music-control" id="music-btn" onclick="toggleMusic()">
     <span id="music-icon">🎵</span>
     <span id="music-text">Música: On</span>
@@ -172,26 +165,26 @@
   <div id="petals-container"></div>
 
   <div class="card">
-    <!-- PÁGINA 1: Sobre cerrado -->
+    <!-- PÁGINA 1 -->
     <div id="page1" class="page active envelope-wrapper" onclick="startCard()">
       <div class="envelope-icon">✉️</div>
       <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">Tenés una carta</p>
       <p class="envelope-hint">(Toca aquí para abrir)</p>
     </div>
 
-    <!-- PÁGINA 2: Mensaje inicial -->
+    <!-- PÁGINA 2 -->
     <div id="page2" class="page">
       <p class="letter-text">Sé que no somos nada todavía, capaz esto no llegue a nada o capaz esto llegue a mucho, pero prefiero que el camino lo elija.</p>
       <button class="btn" onclick="nextPage(3)">Seguir</button>
     </div>
 
-    <!-- PÁGINA 3: Continuación -->
+    <!-- PÁGINA 3 -->
     <div id="page3" class="page">
       <p class="letter-text">A pesar de que no seamos nada, hoy es un día especial y no podías quedarte sin tus...</p>
       <button class="btn" onclick="nextPage(4)">Seguir</button>
     </div>
 
-    <!-- PÁGINA 4: Flores amarillas -->
+    <!-- PÁGINA 4 -->
     <div id="page4" class="page">
       <div class="title-yellow">FLORES AMARILLAS</div>
       <img src="Flores.png" alt="Ramo de Flores Amarillas" class="bouquet-img">
@@ -205,18 +198,10 @@
     const audio = document.getElementById('bg-music');
 
     function startCard() {
-      audio.volume = 0.6;
-      
-      // Reproducción inmediata con salto al segundo 45
-      const playPromise = audio.play();
-
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          audio.currentTime = 45; // Posiciona en el segundo 45
-        }).catch(err => {
-          console.log("Error al reproducir:", err);
-        });
-      }
+      // Reproducción directa e inmediata activada por la interacción del usuario
+      audio.play().catch(function(error) {
+        console.log("El navegador bloqueó la reproducción:", error);
+      });
 
       document.getElementById('music-btn').style.display = 'flex';
       nextPage(2);
@@ -249,9 +234,7 @@
       petal.style.height = `${height}px`;
       
       petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      
-      const radius = Math.random() > 0.5 ? '15px 0 15px 0' : '0 15px 0 15px';
-      petal.style.borderRadius = radius;
+      petal.style.borderRadius = Math.random() > 0.5 ? '15px 0 15px 0' : '0 15px 0 15px';
 
       petal.style.left = `${Math.random() * 100}%`;
       petal.style.animationDuration = `${Math.random() * 5 + 4}s`;
@@ -261,8 +244,10 @@
     }
 
     function nextPage(pageNumber) {
-      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-      setTimeout(() => {
+      document.querySelectorAll('.page').forEach(function(page) {
+        page.classList.remove('active');
+      });
+      setTimeout(function() {
         document.getElementById(`page${pageNumber}`).classList.add('active');
       }, 200);
     }
