@@ -21,7 +21,7 @@
       overflow-x: hidden;
       overflow-y: auto;
       position: relative;
-      padding: 20px 10px;
+      padding: 15px 5px;
     }
 
     /* Pétalos cayendo con físicas y colores variables */
@@ -61,9 +61,9 @@
       border: 1px solid #d4c39c;
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      padding: 30px 20px;
-      max-width: 480px; /* Ampliado para acomodar el ramo triple */
-      width: 100%;
+      padding: 25px 15px;
+      width: 95vw; /* Ocupa casi todo el ancho de la pantalla del celular */
+      max-width: 600px;
       text-align: center;
       color: #4a3b32;
       position: relative;
@@ -83,7 +83,7 @@
     .page.active {
       opacity: 1;
       visibility: visible;
-      max-height: 2000px;
+      max-height: 3000px;
     }
 
     /* Sobre interactivo (Página 1) */
@@ -134,14 +134,15 @@
       transform: scale(0.96);
     }
 
-    /* Imagen del ramo de flores (3 veces más grande) */
+    /* Imagen del ramo de flores maximizada para celular */
     .bouquet-img {
       width: 100%;
-      max-width: 840px; /* Tamaño x3 */
       height: auto;
-      margin: 15px auto;
+      max-width: none;
+      margin: 20px 0;
       display: block;
       filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.18));
+      transform: scale(1.15); /* Amplificación extra */
     }
 
     .title-yellow {
@@ -184,10 +185,10 @@
     <!-- PÁGINA 4: Flores amarillas -->
     <div id="page4" class="page">
       <div class="title-yellow">FLORES AMARILLAS</div>
-      <!-- Ramo de flores renombrado a Flores.png -->
+      <!-- Ramo de flores escalado -->
       <img src="Flores.png" alt="Ramo de Flores Amarillas" class="bouquet-img">
       <p class="letter-text" style="margin-bottom: 0; font-size: 1rem; font-style: italic;">
-        ¡Que tengas un lindo día!
+        Gracias por aceptarme como soy 🩷
       </p>
     </div>
 
