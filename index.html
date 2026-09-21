@@ -178,7 +178,7 @@
 </head>
 <body>
 
-  <!-- Audio de fondo -->
+  <!-- Elemento de Audio -->
   <audio id="bg-music" loop preload="auto">
     <source src="cancion.mp3" type="audio/mpeg">
   </audio>
@@ -228,11 +228,28 @@
   <script>
     const audio = document.getElementById('bg-music');
 
-    // Función para abrir la carta e iniciar la música exactamente en el segundo 45 (0:45)
+    // Manejo robusto de la reproducción en móviles
     function startCard() {
-      audio.currentTime = 45;
-      audio.volume = 0.5;
-      audio.play().catch(e => console.log(e));
+      audio.volume = 0.6;
+
+      // Definir la reproducción segura
+      const playAudio = () => {
+        audio.play().then(() => {
+          // Asignar el segundo 45 una vez que la reproducción comenzó con éxito
+          audio.currentTime = 45;
+        }).catch(err => {
+          console.log("Error al reproducir audio:", err);
+        });
+      };
+
+      // Si los metadatos ya cargaron, reproducir de inmediato
+      if (audio.readyState >= 1) {
+        playAudio();
+      } else {
+        // Esperar a que el audio esté listo para recibir el tiempo de 45 segundos
+        audio.addEventListener('loadedmetadata', playAudio, { once: true });
+        audio.load();
+      }
 
       document.getElementById('music-btn').style.display = 'flex';
       nextPage(2);
