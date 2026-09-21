@@ -23,25 +23,33 @@
       padding: 20px;
     }
 
-    /* Animation de pétalos cayendo */
+    /* Pétalos cayendo con físicas y colores variables */
     .petal {
       position: absolute;
-      top: -10%;
-      background-color: #ffd700; /* Amarillo */
+      top: -12%;
       border-radius: 15px 0 15px 0;
-      opacity: 0.8;
+      opacity: 0.85;
       pointer-events: none;
       animation: fall linear infinite;
     }
 
     @keyframes fall {
       0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0) rotate(0deg) translateX(0);
         opacity: 0.9;
       }
+      25% {
+        transform: translateY(28vh) rotate(90deg) translateX(25px);
+      }
+      50% {
+        transform: translateY(55vh) rotate(180deg) translateX(-20px);
+      }
+      75% {
+        transform: translateY(80vh) rotate(270deg) translateX(20px);
+      }
       100% {
-        transform: translateY(105vh) rotate(360deg);
-        opacity: 0.2;
+        transform: translateY(110vh) rotate(360deg) translateX(-10px);
+        opacity: 0.1;
       }
     }
 
@@ -58,7 +66,21 @@
       color: #4a3b32;
       position: relative;
       z-index: 10;
-      transition: all 0.4s ease;
+    }
+
+    /* Transiciones suaves entre páginas */
+    .page {
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+    }
+
+    .page.active {
+      opacity: 1;
+      visibility: visible;
+      max-height: 1000px;
     }
 
     /* Sobre interactivo (Página 1) */
@@ -109,11 +131,13 @@
       transform: scale(0.96);
     }
 
-    /* Imagen o ilustración de flores */
-    .flower-illustration {
-      font-size: 80px;
+    /* Imagen del ramo de flores */
+    .bouquet-img {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
       margin: 15px 0;
-      display: block;
+      filter: drop-shadow(0px 5px 8px rgba(0,0,0,0.15));
     }
 
     .title-yellow {
@@ -123,15 +147,6 @@
       margin-bottom: 10px;
       text-transform: uppercase;
       letter-spacing: 1px;
-    }
-
-    /* Control de vista de páginas */
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
     }
   </style>
 </head>
@@ -165,7 +180,8 @@
     <!-- PÁGINA 4: Flores amarillas -->
     <div id="page4" class="page">
       <div class="title-yellow">FLORES AMARILLAS</div>
-      <span class="flower-illustration">💐🌻✨</span>
+      <!-- Ramo de flores -->
+      <img src="https://i.ibb.co/LdvL2rB/Gemini-Generated-Image-byp6fdbyp6fdbyp6-removebg-preview.png" alt="Ramo de Flores Amarillas" class="bouquet-img">
       <p class="letter-text" style="margin-bottom: 0; font-size: 1rem; font-style: italic;">
         ¡Que tengas un lindo día!
       </p>
@@ -174,31 +190,44 @@
   </div>
 
   <script>
-    // Generador de pétalos amarillos
+    // Generador de pétalos variados
     const petalsContainer = document.getElementById('petals-container');
-    const petalCount = 20;
+    const petalCount = 45; // Más pétalos
+    const colors = ['#ffd700', '#ffea00', '#f4c430', '#ffe135']; // Diferentes tonos de amarillo
 
     for (let i = 0; i < petalCount; i++) {
       const petal = document.createElement('div');
       petal.classList.add('petal');
       
-      const size = Math.random() * 12 + 10; // Tamaño variable entre 10px y 22px
-      petal.style.width = `${size}px`;
-      petal.style.height = `${size * 1.3}px`;
+      // Tamaño y forma variada
+      const width = Math.random() * 12 + 8; // De 8px a 20px
+      const height = width * (Math.random() * 0.6 + 1.1); // Forma alargada única
+      petal.style.width = `${width}px`;
+      petal.style.height = `${height}px`;
       
+      // Color aleatorio
+      petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      // Borde suave aleatorio para variar la curva del pétalo
+      const radius = Math.random() > 0.5 ? '15px 0 15px 0' : '0 15px 0 15px';
+      petal.style.borderRadius = radius;
+
       petal.style.left = `${Math.random() * 100}%`;
-      petal.style.animationDuration = `${Math.random() * 5 + 4}s`; // Duración de caída 4s a 9s
-      petal.style.animationDelay = `${Math.random() * 5}s`;
+      petal.style.animationDuration = `${Math.random() * 5 + 4}s`; // Velocidad de caída
+      petal.style.animationDelay = `${Math.random() * 6}s`;
       
       petalsContainer.appendChild(petal);
     }
 
-    // Navegación entre páginas
+    // Navegación entre páginas con transición suave
     function nextPage(pageNumber) {
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
       });
-      document.getElementById(`page${pageNumber}`).classList.add('active');
+      
+      setTimeout(() => {
+        document.getElementById(`page${pageNumber}`).classList.add('active');
+      }, 200);
     }
   </script>
 </body>
