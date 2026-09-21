@@ -12,7 +12,7 @@
     }
 
     body {
-      background-color: #f7d6e0; /* Rosa pastel */
+      background-color: #f7d6e0;
       font-family: 'Georgia', serif;
       display: flex;
       justify-content: center;
@@ -24,7 +24,6 @@
       padding: 15px 5px;
     }
 
-    /* Botón flotante de control de música */
     .music-control {
       position: fixed;
       top: 20px;
@@ -45,7 +44,6 @@
       color: #333;
     }
 
-    /* Pétalos cayendo */
     .petal {
       position: fixed;
       top: -12%;
@@ -57,26 +55,13 @@
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg) translateX(0);
-        opacity: 0.9;
-      }
-      25% {
-        transform: translateY(28vh) rotate(90deg) translateX(25px);
-      }
-      50% {
-        transform: translateY(55vh) rotate(180deg) translateX(-20px);
-      }
-      75% {
-        transform: translateY(80vh) rotate(270deg) translateX(20px);
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg) translateX(-10px);
-        opacity: 0.1;
-      }
+      0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0.9; }
+      25% { transform: translateY(28vh) rotate(90deg) translateX(25px); }
+      50% { transform: translateY(55vh) rotate(180deg) translateX(-20px); }
+      75% { transform: translateY(80vh) rotate(270deg) translateX(20px); }
+      100% { transform: translateY(110vh) rotate(360deg) translateX(-10px); opacity: 0.1; }
     }
 
-    /* Carta / Papel viejo */
     .card {
       background-color: #f2e3c6;
       border: 1px solid #d4c39c;
@@ -92,7 +77,6 @@
       margin: auto;
     }
 
-    /* Transiciones suaves entre páginas */
     .page {
       opacity: 0;
       visibility: hidden;
@@ -107,10 +91,7 @@
       max-height: 3000px;
     }
 
-    /* Sobre interactivo */
-    .envelope-wrapper {
-      cursor: pointer;
-    }
+    .envelope-wrapper { cursor: pointer; }
 
     .envelope-icon {
       font-size: 60px;
@@ -129,7 +110,6 @@
       font-style: italic;
     }
 
-    /* Texto */
     .letter-text {
       font-size: 1.1rem;
       line-height: 1.6;
@@ -137,7 +117,6 @@
       white-space: pre-line;
     }
 
-    /* Botones */
     .btn {
       background-color: #7a6352;
       color: #fff;
@@ -151,11 +130,8 @@
       font-family: inherit;
     }
 
-    .btn:active {
-      transform: scale(0.96);
-    }
+    .btn:active { transform: scale(0.96); }
 
-    /* Ramo de flores escalado */
     .bouquet-img {
       width: 100%;
       height: auto;
@@ -178,43 +154,35 @@
 </head>
 <body>
 
-  <!-- Elemento de Audio -->
-  <audio id="bg-music" loop preload="auto">
-    <source src="cancion.mp3" type="audio/mpeg">
+  <!-- Audio desde enlace directo confiable -->
+  <audio id="bg-music" loop crossorigin="anonymous">
+    <source src="https://ia801503.us.archive.org/15/items/flores-amarillas-floricienta/Flores%20Amarillas%20-%20Floricienta.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Control flotante de música -->
   <div class="music-control" id="music-btn" onclick="toggleMusic()">
     <span id="music-icon">🎵</span>
     <span id="music-text">Música: On</span>
   </div>
 
-  <!-- Lluvia de pétalos -->
   <div id="petals-container"></div>
 
-  <!-- Tarjeta principal -->
   <div class="card">
-    
-    <!-- PÁGINA 1: Sobre cerrado -->
     <div id="page1" class="page active envelope-wrapper" onclick="startCard()">
       <div class="envelope-icon">✉️</div>
       <p style="font-size: 1.2rem; font-weight: bold; margin-bottom: 8px;">Tenés una carta</p>
       <p class="envelope-hint">(Toca aquí para abrir)</p>
     </div>
 
-    <!-- PÁGINA 2: Mensaje inicial -->
     <div id="page2" class="page">
       <p class="letter-text">Sé que no somos nada todavía, capaz esto no llegue a nada o capaz esto llegue a mucho, pero prefiero que el camino lo elija.</p>
       <button class="btn" onclick="nextPage(3)">Seguir</button>
     </div>
 
-    <!-- PÁGINA 3: Continuación del mensaje -->
     <div id="page3" class="page">
       <p class="letter-text">A pesar de que no seamos nada, hoy es un día especial y no podías quedarte sin tus...</p>
       <button class="btn" onclick="nextPage(4)">Seguir</button>
     </div>
 
-    <!-- PÁGINA 4: Flores amarillas -->
     <div id="page4" class="page">
       <div class="title-yellow">FLORES AMARILLAS</div>
       <img src="Flores.png" alt="Ramo de Flores Amarillas" class="bouquet-img">
@@ -222,40 +190,23 @@
         ¡Que tengas un lindo día!
       </p>
     </div>
-
   </div>
 
   <script>
     const audio = document.getElementById('bg-music');
 
-    // Manejo robusto de la reproducción en móviles
     function startCard() {
       audio.volume = 0.6;
-
-      // Definir la reproducción segura
-      const playAudio = () => {
-        audio.play().then(() => {
-          // Asignar el segundo 45 una vez que la reproducción comenzó con éxito
-          audio.currentTime = 45;
-        }).catch(err => {
-          console.log("Error al reproducir audio:", err);
-        });
-      };
-
-      // Si los metadatos ya cargaron, reproducir de inmediato
-      if (audio.readyState >= 1) {
-        playAudio();
-      } else {
-        // Esperar a que el audio esté listo para recibir el tiempo de 45 segundos
-        audio.addEventListener('loadedmetadata', playAudio, { once: true });
-        audio.load();
-      }
+      audio.play().then(() => {
+        audio.currentTime = 45; // Salta al segundo 45
+      }).catch(e => {
+        console.log("Error al reproducir audio:", e);
+      });
 
       document.getElementById('music-btn').style.display = 'flex';
       nextPage(2);
     }
 
-    // Encender / Apagar música manualmente
     function toggleMusic() {
       if (audio.paused) {
         audio.play();
@@ -294,7 +245,6 @@
       petalsContainer.appendChild(petal);
     }
 
-    // Navegación de páginas
     function nextPage(pageNumber) {
       document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
